@@ -744,3 +744,620 @@ sum_loop:
     NEWLINE
     xor eax, eax
     ret
+    
+    
+    
+    ///////// 1.Explain the main differences between fixed-point and floating-point number representations.
+
+Fixed-Point:The decimal point is in a fixed location.Like a ruler with permanent markings.
+Floating-Point:The decimal point can float to represent very large or very small numbers.Like scientific notation(Exp:6.02 × 10²³).
+
+Feature			Fixed-Point					Floating-Point
+Precision		Absolute 					Relative
+Range			Limited & Fixed 				Very Wide
+Hardware		Simple & Fast 					Complex & Slower 
+Best For		Embedded systems,DSP,low-power devices		Scientific computing,graphics,general-purpose software 
+
+2.Convert -5.75 to its binary form in IEEE 754 single-precision format.
+
+Main Statement:Convert -5.75 to IEEE 754 single-precision binary.
+Key Steps:
+	Sign:Negative→Sign bit=1
+	Binary Conversion:
+		5.75=101.11₂(5=101,0.75=0.11)
+		Scientific notation:1.0111×2²
+	Components:
+		Sign:1
+		Exponent:2+127=129=10000001₂
+		Mantissa:.0111(drop leading 1)
+
+3.Convert -25 to 8-bit two's complement binary.
+Main Statement:
+	Convert -25 to 8-bit two's complement binary.
+Key Steps:
+	+25 to binary:
+		25=16+8+1
+		25₁₀=00011001₂
+Apply 2's complement:
+	Invert:11100110
+	Add 1:11100111
+Final Result:
+	11100111
+
+4.Explain the difference between direct and complement codes with an example.
+
+Main Statement:
+	Direct Code: Simple sign-magnitude representation
+	Complement Code: Uses 2's complement for negative numbers
+Example for -5(8-bit):
+	Direct Code:
+		Sign bit(1)+magnitude(5)=10000101
+	Complement Code:
+		+5=00000101
+		Invert:11111010
+		Add 1:11111011
+
+5.Describe how to convert a given two’s complement code back to decimal form.
+
+Main Statement:
+	To convert two's complement back to decimal:Check MSB→If negative,apply 2's complement→Convert to decimal→Apply sign.
+Key Steps:
+	Check MSB(Most Significant Bit):
+		MSB=0:Positive number→Convert directly to decimal
+		MSB=1:Negative number→Continue to step 2
+For Negative Numbers:
+	Invert all bits(0→1,1→0)
+	Add 1 to the result
+	Convert this positive binary to decimal
+	Apply negative sign
+Example:Convert 11100111 back to decimal
+	MSB=1→Negative number
+	Invert:00011000
+	Add 1:00011001=25₁₀
+	Apply sign:-25
+Final Result:
+	-25
+
+6.Specify the range of signed numbers that can be represented with 1 byte (8 bits).
+
+Main Statement:
+	8-bit signed numbers range:-128 to +127
+Key Details:
+	Total combinations:2⁸=256 possible values
+	Negative range:-128 to -1→128 numbers
+	Positive range:0 to +127→128 numbers
+Representation:
+	Minimum:-128=10000000
+	Maximum:+127=01111111
+	Zero:0=00000000
+
+7.Explain how overflow can be detected when adding two 16-bit numbers.
+
+Main Statement:
+	Overflow occurs when the result exceeds the 16-bit signed range(-32768 to +32767).
+Detection Methods:
+	1.For Signed Numbers(2's complement):
+		Check Overflow Flag(OF)
+		Rule:OF=1 if:
+			Adding two positives gives negative result
+			Adding two negatives gives positive result
+	2. For Unsigned Numbers:
+		Check Carry Flag(CF)
+		CF=1 if result>65535
+Example (8-bit for simplicity):
+	  01111111(+127)
+	+ 00000001(+1)
+	= 10000000(-128)←OF=1(overflow!)
+
+8.Describe the roles of mantissa and exponent in a floating-point number.
+
+Key Roles:
+	Mantissa (Significand):
+		Contains the significant digits of the number
+		Determines the precision/accuracy
+		Represents the number between 1.0 and 2.0(normalized)
+		More bits=higher precision
+	Exponent:
+		Determines the scale/magnitude of the number
+		Moves the binary point left or right
+		Controls the range of representable numbers
+		Uses bias representation(Exp:+127 bias in single-precision)
+Example:6.25=1.1001×2²
+	Mantissa: .1001(significant digits)
+	Exponent:2(scale factor)
+
+9.What is the normalization of a fixed-point number and why is it important?
+
+Main Statement:
+	Normalization adjusts a fixed-point number to use the full precision of its format.
+What is Normalization?:
+	Shifting the number so its most significant bit is 1
+	Eliminating leading zeros to maximize precision
+	Similar to scientific notation:0.00101→1.01×2⁻³
+Why Important:
+	Maximizes Precision:Uses all available bits effectively
+	Consistent Representation:Standard format for all numbers
+	Prevents Precision Loss:Avoids losing significant bits in calculations
+	Simplifies Comparisons:Normalized numbers are easier to compare
+Example:
+	Unnormalized:00010110(uses only 4 significant bits)
+	Normalized:10110000(uses all 8 bits effectively)
+
+10.Define the concept of bias in IEEE 754 format and calculate the bias value for an 8-bit exponent field.
+
+Main Statement:
+	Bias allows exponents to be stored as unsigned numbers by adding a constant offset.
+Bias Calculation for 8-bit Exponent:
+	Formula:Bias=2^(k-1)-1 where k=exponent bits
+	Bias=2^(8-1)-1=2⁷-1=128-1=127
+How It Works:
+	Stored Exponent=Actual Exponent+127
+	Actual Exponent=Stored Exponent-127
+Examples:
+	Actual exponent -5→Stored:-5+127=122
+	Actual exponent +10→Stored:10+127=137
+
+11.List the main parts of the CPU and briefly describe the function of each.
+
+Main Statement:
+	The CPU has three main components:ALU,Control Unit,and Registers.
+
+Main Parts & Functions:
+	ALU(Arithmetic Logic Unit)
+		Performs mathematical calculations (add, subtract, etc.)
+		Handles logical operations (AND, OR, NOT, XOR)
+		The "calculator" of the CPU
+	Control Unit(CU)
+		Directs operations of the CPU
+		Fetches,decodes,and executes instructions
+		Manages data flow between CPU components
+		The "traffic controller" of the CPU
+	Registers
+		Small,fast memory inside CPU
+		Store data,addresses,and instructions temporarily
+		Examples:Accumulator,Program Counter,Instruction Register
+Additional Key Components:
+	Cache Memory:Very fast memory for frequently used data
+	Clock:Synchronizes all CPU operations
+	Bus Interface Unit:Manages communication with system bus
+
+12.What is the function of the ALU, and what types of operations does it perform?
+
+Main Statement:
+	The ALU(Arithmetic Logic Unit) is the CPU's computational core that performs all mathematical and logical operations.
+Main Functions:
+	Arithmetic Operations:
+		Addition,Subtraction
+		Multiplication,Division
+		Increment,Decrement
+	Logical Operations:
+		AND,OR,NOT,XOR
+		Bit shifting(LEFT,RIGHT)
+		Bit rotation
+		Comparisons
+Key Features:
+	Takes two inputs(operands) and produces one output
+	Sets status flags(Zero,Carry,Overflow,Sign)
+	Works with binary data
+	Handles both integer and bit-wise operations
+
+13.Explain the different roles of the Program Counter (PC) and the Stack Pointer (SP) registers.
+
+Main Statement:
+	PC tracks the next instruction | SP tracks the top of the stack
+Program Counter(PC):
+	Purpose:Points to the next instruction to be executed
+	Behavior:Automatically increments after each instruction
+	Modified by:Jumps,calls,branches,and interrupts
+	Analogy:Bookmark in a program instruction book
+Stack Pointer(SP):
+	Purpose:Points to the top of the stack in memory
+	Behavior:Decrements when pushing,increments when popping
+	Modified by:PUSH,POP,CALL,RET instructions
+	Analogy:Pointer to the top plate in a stack of plates
+
+14.Differentiate between general-purpose and special-purpose registers.
+
+Main Statement:
+	General-purpose:Flexible use for data/addresses | Special-purpose: Dedicated specific functions
+General-Purpose Registers:
+	Purpose:Store data,addresses,or intermediate results
+	Flexible:Can be used for various operations
+	Examples:AX,BX,CX,DX(in x86)
+	Usage:Arithmetic,data movement,addressing
+
+Special-Purpose Registers:
+	Purpose:Dedicated to specific CPU functions
+	Fixed Role:Each has a unique,specialized task
+	Examples:
+		PC(Program Counter):Points to next instruction
+		SP(Stack Pointer):Points to top of stack
+		IR(Instruction Register):Holds current instruction
+		Status Register:Stores condition flags
+
+15.Describe the Accumulator-based machine model and give an example.
+
+Main Statement:
+	Accumulator-based machines use one primary register(Accumulator) for all arithmetic and logical operations.
+Key Characteristics:
+	One main register:Accumulator stores first operand and result
+	Implicit operations:Most instructions work with the Accumulator
+	Simpler design:Fewer registers,simpler instruction set
+How It Works:
+	Load data into Accumulator
+	Perform operation using Accumulator and another operand
+	Result stored back in Accumulator
+
+16.Compare stack-based and register-based CPU architectures.
+
+Main Statement:
+	Stack-based uses memory stack for operations | Register-based uses CPU registers
+
+Stack-Based Architecture:
+	Operations:Work on top stack elements
+	Instructions:PUSH,POP,ADD
+	Example:5 3 +(push 5,push 3,add)
+	Pros:Compact code,simple hardware
+	Cons:Slower(memory access),harder to optimize
+Register-Based Architecture:
+	Operations:Work on specified registers
+	Instructions:ADD R1,R2,R3
+	Example:ADD R0,R1, R2(R0=R1+R2)
+	Pros:Faster(register access),better performance
+	Cons:Larger instructions,more complex hardware
+
+17.Describe the phases of the Instruction Cycle (Fetch, Decode, Execute).
+
+The Three Phases:
+	Fetch
+		PC → MAR: Program Counter sends address to Memory Address Register
+		Memory → IR: Instruction fetched from memory into Instruction Register
+		PC++: Program Counter increments to next instruction
+	Decode
+		Interpret:Control Unit decodes the instruction in IR
+		Identify:Determines operation and operands needed
+		Prepare:Sets up pathways for execution
+	Execute
+		Perform:ALU executes the actual operation
+		Memory Access:Read/write data if needed
+		Store Result:Save output to register or memory
+
+18.List the main characteristics of a microprocessor.
+
+Main Statement:
+	Key characteristics that define microprocessor performance and capability.
+Main Characteristics:
+	Clock Speed - Operations per second(Hz,MHz,GHz)
+	Word Size - Bits processed at once(8,16,32,64-bit)
+	Instruction Set - CISC(complex) vs RISC(reduced)
+	Cache Memory - Size and levels(L1,L2,L3)
+	Number of Cores - Single-core vs multi-core
+	Address Bus Width - Maximum addressable memory
+	Data Bus Width - Bits transferred in one cycle
+	Power Consumption - Thermal Design Power(TDP)
+	Manufacturing Process - Nanometer technology(Exp:7nm,5nm)
+Key Performance Factors:
+	IPC(Instructions Per Cycle)
+	Architecture(pipelining,superscalar)
+	Register File Size
+	Floating-Point Performance
+
+19.Describe the levels of cache memory(L1,L2,L3) and their role between the CPU and RAM.
+
+Main Statement:
+	Cache memory hierarchy:L1(fastest/smallest)→L2→L3(slowest/largest)→RAM
+Cache Levels:
+	L1 Cache:
+		Location:Inside CPU core(closest to ALU)
+		Size:32-64 KB per core
+		Speed:Fastest(1-4 cycle access)
+		Role:Stores most frequently used data/instructions
+	L2 Cache:
+		Location:Usually per core(sometimes shared)
+		Size:256KB-1MB per core
+		Speed:Slower than L1(10-20 cycles)
+		Role:Secondary cache for recent accesses
+	L3 Cache:
+		Location:Shared among all cores
+		Size:8-32MB+total
+		Speed:Slowest cache(20-40 cycles)
+		Role:Shared pool for core-to-core data
+Memory Hierarchy Speed:
+	CPU→L1→L2→L3→RAM→Storage(Fastest & Smallest→Slowest & Largest)
+
+20.List and explain the main differences between RAM and ROM.
+
+Main Statement:
+	RAM=Temporary read/write memory | ROM=Permanent read-only memory
+Types:
+	RAM:DRAM,SRAM,SDRAM
+	ROM:Mask ROM,PROM,EPROM,EEPROM,Flash
+
+21.Describe the working principle of a Stack(LIFO) and the instructions used to manage it.
+
+Main Statement:
+	Stack=LIFO(Last-In,First-Out) data structure managed with PUSH and POP instructions.
+Working Principle:
+	LIFO:Last item pushed is first item popped
+	Stack Pointer(SP):Register that points to top of stack
+	Stack Grows Downward:Memory addresses decrease as stack grows
+Core Instructions:
+	PUSH(Add to stack):
+		Decrement SP
+		Copy data to stack location pointed by SP
+	POP(Remove from stack):
+		Copy data from stack location pointed by SP
+		Increment SP
+Key Operations:
+	Function calls:CALL(pushes return address),RET(pops return address)
+	Temporary storage:Save/restore register values
+	Parameter passing:Between functions
+
+22.Compare DRAM and SRAM in terms of speed,cost,and structure.
+
+Main Statement:
+	SRAM=Fast/expensive | DRAM=Slower/cheap
+SRAM(Static RAM):
+	Very Fast(CPU cache)
+	Expensive(more transistors)
+	L1/L2/L3 Cache
+	More power(always on)
+	Low(large cells)	
+	Not needed Refresh
+DRAM(Dynamic RAM):
+	Slower(Main memory)
+	Cheap(simple cells)
+	Less power(needs refresh)
+	High(small cells)
+	Required periodically Refresh
+	Main System RAM
+
+23.Explain the difference between address bus and data bus.
+
+Main Statement:
+	Address Bus=Where to go | Data Bus=What to transfer
+Example:
+	CPU reads memory location 0x1000:
+		Address Bus:Sends 0x1000
+		Data Bus:Returns data from that location
+Calculation:
+	Address Bus width=32 bits→2³²=4GB addressable memory
+	Data Bus width=64 bits→transfers 8 bytes at once
+
+24.What are cache hit and cache miss events in CPU operation?
+
+Main Statement:
+	Cache Hit=Data found in cache | Cache Miss=Data not in cache,need RAM
+Cache Hit:
+	Event:CPU finds requested data in cache memory
+	Result:Fast access(1-10 CPU cycles)
+	Performance:Optimal - no RAM access needed
+Cache Miss:
+	Event:CPU doesn't find data in cache
+	Result:Slow access(must fetch from RAM=100+ cycles)
+	Performance:Penalty - CPU stalls waiting for data
+Types of Cache Misses:
+	Compulsory Miss:First access to new data
+	Capacity Miss:Cache too small for working set
+	Conflict Miss:Data mapped to same cache line
+
+25.Describe the memory hierarchy model and arrange its levels in order of access speed.
+
+Main Statement:
+	Memory hierarchy organizes storage from fastest/smallest to slowest/largest.
+Levels by Access Speed(Fastest to Slowest):
+	CPU Registers(1 cycle)
+	L1 Cache(2-4 cycles)
+	L2 Cache(10-20 cycles)
+	L3 Cache(20-40 cycles)
+	Main Memory(RAM)(100-300 cycles)
+	SSD Storage(10,000-100,000 cycles)
+	HDD Storage(1,000,000+ cycles)
+	Network/Cloud Storage(Millions of cycles)
+Key Principles:
+	Faster→Smaller & More Expensive
+	Slower→Larger & Cheaper
+	Locality of Reference:CPU tries to keep frequently used data in higher levels
+
+26.List the main components on a motherboard and describe the function of each.
+
+Main Statement:
+	The motherboard connects all computer components and enables communication between them.
+Main Components & Functions:
+	CPU Socket
+		Holds the processor
+		Provides power and data connection to CPU
+	Chipset(Northbridge/Southbridge)
+		Manages data flow between CPU,RAM,and peripherals
+		Northbridge:High-speed connections(CPU,RAM,GPU)
+		Southbridge:Slower connections(USB,SATA,audio)
+	RAM Slots
+		Hold memory modules
+		Provide direct connection to CPU for fast data access
+	Expansion Slots(PCIe)
+		Add functionality(graphics cards,network cards,storage)
+		PCIe x16 for graphics,PCIe x1 for other cards
+	Storage Connectors(SATA,M.2)
+		Connect hard drives and SSDs
+		M.2 for NVMe high-speed storage
+	Power Connectors
+		Distribute power from PSU to components
+		24-pin main power,4/8-pin CPU power
+	BIOS/UEFI Chip
+		Basic Input/Output System
+		Initializes hardware during boot process
+	Rear I/O Panel
+E		xternal ports(USB,Ethernet,audio,video)
+		Connection point for peripherals
+	Internal Headers
+		Front panel connectors(power button,LEDs)
+		USB headers,fan connectors
+	VRM(Voltage Regulator Module)
+		Provides clean stable power to CPU
+		Critical for CPU performance and stability
+
+27.Explain the three main types of buses:data,address,and control.
+
+Main Statement:
+	Three bus types work together:Data(what),Address(where),Control(how)
+1.Data Bus
+	Function:Carries actual data between components
+	Direction:Bidirectional(CPU↔Memory/I/O)
+	Width:Determines word size(8,16,32,64-bit)
+	Example:Transfers numbers,instructions,files
+2. Address Bus
+	Function:Carries memory addresses
+	Direction:Unidirectional(CPU→Memory/I/O)
+	Width:Determines addressable memory
+	Example:"I want data from location 0x1000"
+3. Control Bus
+	Function:Carries signals and commands
+	Direction:Mixed(bidirectional and unidirectional)
+	Signals:Read/Write,Interrupt,Clock,Reset
+	Example:"Read from memory" or "I/O device ready"
+
+28.Differentiate between serial and parallel ports.
+
+Main Statement:
+	Serial=One bit at a time | Parallel=Multiple bits simultaneously
+Serial Port:
+	One bit at a time
+	Fewer wires(2-9)
+	Slower per clock
+	Lower cost
+	USB,Ethernet,SATA
+Paralel Port:
+	Multiple bits(8+) simultaneously
+	Many wires(25-40)
+	Faster per clock
+	Short distances
+	Higher cost
+	Largely obsolete
+Examples:
+	Serial:USB,RS-232,SATA,Ethernet,PCIe
+	Parallel:Old printers(LPT),IDE hard drives,SCSI
+
+29.Explain the key difference between PCI and USB interfaces.
+
+PCI=Internal component connection | USB=External peripheral connection
+
+PCI:
+	Internal
+	Connect internal components
+	Expansion slots on motherboard
+	No
+	Limited
+	High bandwidth for performance
+	Graphics cards,network cards,storage
+USB:
+	External
+	Connect external peripherals
+	External ports
+	Yes
+	Power + data
+	Convenience & versatility
+	Keyboards,mice,drives,phones
+Modern Evolution:
+	PCI→PCIe(faster serial version)
+	USB 1.0→USB4(much faster speeds)
+
+30.List the main differences between Von Neumann and Harvard architectures.
+
+Main Statement:
+	Von Neumann = Shared memory for instructions & data | Harvard = Separate memories
+Von Neumann Architecture:
+	Single memory for instructions and data
+	Single bus for both instructions and data
+	Bottleneck - can't fetch both simultaneously
+	Simpler design
+	Lower cost
+	More flexible memory usage
+Harvard Architecture:
+	Separate memories for instructions and data
+	Separate buses for instructions and data
+	Faster - parallel instruction and data access
+	More complex design
+	Higher cost
+	Less flexible
+Modern Implementation:
+	Pure Von Neumann:Most general-purpose computers
+	Modified Harvard:Many modern processors(separate L1 caches)
+	Pure Harvard:Microcontrollers(Arduino,PIC,ARM Cortex-M)
+
+31.What does a processor’s Instruction Set Architecture(ISA) define?
+
+Main Statement:
+	ISA defines the interface between software and hardware - what the processor can understand and execute.
+What ISA Defines:
+	Instructions:
+		Available operations(ADD,LOAD,STORE,JUMP)
+		Instruction formats and encoding
+	Data Types:
+		Supported data sizes(byte,word,doubleword)
+		Integer,floating-point,decimal formats
+	Registers:
+		Number and purpose of registers
+		Register organization and accessibility
+	Memory Addressing:
+		How instructions access memory
+		Addressing modes(immediate,direct,indirect)
+	Input/Output:
+		How CPU communicates with peripherals
+		Memory-mapped vs. port-mapped I/O
+	Exception Handling:
+		Interrupts and trap mechanisms
+		Error and exception management
+Key ISA Types:
+	CISC(Complex Instruction Set Computer):x86
+	RISC(Reduced Instruction Set Computer):ARM,RISC-V
+
+32.Describe the different addressing modes(Immediate,Direct,Indirect,Indexed,Register).
+
+Main Statement:
+	Addressing modes define how instructions locate their operands.
+
+Main Addressing Modes:
+	Immediate:
+		Operand:Constant value within instruction
+		Example:MOV AL,5(AL=5)
+		Use:Loading constants
+	Direct:
+		Operand:Memory address specified directly
+		Example:MOV AL,[1000h](AL=data at address 1000h)
+		Use:Accessing fixed memory locations
+	Indirect:
+		Operand:Address stored in a register
+		Example:MOV AL,[BX](AL=data at address in BX)
+		Use:Pointers,array access
+	Indexed:
+		Operand:Base address+index register
+		Example:MOV AL,[SI+100h](AL=data at SI+100h)
+		Use:Array processing
+	Register:
+		Operand:Data in CPU register
+		Example:MOV AL,BL(AL=BL)
+		Use:Fast data manipulation
+
+33.What is the function of the Control Unit (CU), and how does it interact with other CPU components?
+
+Main Statement:
+	The Control Unit(CU) is the CPU's "brain" that directs all operations and coordinates component interactions.
+
+Main Functions:
+	Instruction Management
+		Fetches instructions from memory
+		Decodes instructions to understand what to do
+		Executes instructions by activating appropriate components
+	Component Coordination
+		Controls data flow between registers,ALU,and memory
+		Manages timing using the system clock
+		Generates control signals for all CPU operations
+Interactions with Other Components:
+	With Registers: Reads/writes data, manages Program Counter
+	With ALU: Sends operation codes, activates arithmetic/logic functions
+	With Memory: Sends read/write signals, manages address/data buses
+	With I/O Devices: Controls data transfer to peripherals
+Control Signals Examples:
+	MemoryRead / MemoryWrite
+	ALU_Operation(ADD,SUB,AND,OR)
+	Register_Load / Register_Enable
