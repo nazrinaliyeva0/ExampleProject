@@ -744,10 +744,8 @@ sum_loop:
     NEWLINE
     xor eax, eax
     ret
-    
-    
-    
-    ///////// 1.Explain the main differences between fixed-point and floating-point number representations.
+
+///////// 1.Explain the main differences between fixed-point and floating-point number representations.
 
 Fixed-Point:The decimal point is in a fixed location.Like a ruler with permanent markings.
 Floating-Point:The decimal point can float to represent very large or very small numbers.Like scientific notation(Exp:6.02 × 10²³).
@@ -1361,3 +1359,168 @@ Control Signals Examples:
 	MemoryRead / MemoryWrite
 	ALU_Operation(ADD,SUB,AND,OR)
 	Register_Load / Register_Enable
+Nazrin Aliyeva, [15.11.2025 05:13]
+# 25. Explain the difference between address bus and data bus.
+
+The address bus carries memory addresses from the CPU.
+It tells the system where to read or write data.
+The data bus carries actual data between CPU, memory, and devices.
+The address bus is usually one-directional.
+The data bus is typically bidirectional.
+Both buses are essential for communication.
+The width of the address bus determines maximum memory.
+The width of the data bus affects how much data is moved at once.
+They work together during memory operations.
+They form part of the system bus architecture.
+
+---
+
+# 26. What are cache hit and cache miss events in CPU operation?
+
+A cache hit occurs when requested data is found in the cache.
+This allows the CPU to access data quickly.
+Cache hits improve system performance significantly.
+A cache miss occurs when data is not in the cache.
+The CPU must then fetch data from RAM.
+Fetching from RAM is much slower.
+Cache misses decrease performance.
+The CPU updates the cache after a miss.
+Hit rate is important for CPU efficiency.
+Good caching reduces memory access delays.
+
+---
+
+# 27. Describe the memory hierarchy model and arrange its levels in order of access speed.
+
+The memory hierarchy organizes storage by speed and cost.
+Faster memory is smaller and more expensive.
+Slower memory is larger and cheaper.
+At the top are CPU registers.
+Below them are L1, L2, and L3 caches.
+Next is RAM, which is slower than cache.
+After RAM comes secondary storage like SSD or HDD.
+At the bottom is tertiary storage such as tape or cloud.
+The hierarchy balances speed and capacity.
+Data moves between levels depending on usage.
+
+---
+
+# 31. List the main components on a motherboard and describe the function of each.
+
+The motherboard holds all major computer components.
+The CPU socket houses the processor.
+RAM slots hold memory modules.
+The chipset manages communication between CPU, memory, and devices.
+Expansion slots support graphics and network cards.
+Power connectors deliver electricity to components.
+Storage connectors attach SSDs and HDDs.
+I/O ports connect external devices.
+The BIOS/UEFI chip stores firmware.
+All components communicate through the motherboard’s circuits.
+
+---
+
+# 32. Explain the three main types of buses: data, address, and control.
+
+The data bus transfers data between CPU, memory, and devices.
+The address bus carries memory addresses for data access.
+The control bus sends signals to manage operations.
+Each bus has a different role in communication.
+The data bus is bidirectional, carrying input and output.
+The address bus is usually unidirectional.
+The control bus carries read, write, and interrupt signals.
+Together they form the system bus.
+They ensure coordinated data exchange.
+All CPU operations depend on these buses.
+
+---
+
+# 33. Differentiate between serial and parallel ports.
+
+Serial ports send data one bit at a time.
+Parallel ports send multiple bits simultaneously.
+Serial communication is slower but can cover long distances.
+Parallel communication is faster but limited to short distances.
+Serial ports are used for modems and older devices.
+Parallel ports were often used for printers.
+Serial ports require fewer wires.
+Parallel ports use many wires in parallel.
+Both types allow external device connection.
+Their difference is mainly in data transfer method.
+
+---
+
+# 34. Explain the key difference between PCI and USB interfaces.
+
+PCI is an internal hardware interface.
+It connects components like graphics cards directly to the motherboard.
+USB is an external interface for peripheral devices.
+USB supports hot-plugging, PCI does not.
+PCI offers higher internal bandwidth.
+USB is more flexible and widely used.
+PCI devices require installation inside the computer.
+USB devices connect easily from outside.
+PCI is used for performance-critical tasks.
+USB focuses on convenience and compatibility.
+
+---
+
+# 35. List the main differences between Von Neumann and Harvard architectures.
+
+Von Neumann uses one memory for instructions and data.
+Harvard uses separate memories for instructions and data.
+
+Nazrin Aliyeva, [15.11.2025 05:13]
+Von Neumann may suffer from bottlenecks.
+Harvard allows simultaneous access to code and data.
+Von Neumann architecture is simpler.
+Harvard architecture is faster for embedded systems.
+Von Neumann systems use a single bus.
+Harvard systems use separate buses.
+Both architectures affect CPU design.
+Each has advantages depending on application.
+
+---
+
+# 36. What does a processor’s Instruction Set Architecture (ISA) define?
+
+The ISA defines all instructions a CPU can execute.
+It specifies instruction formats and opcodes.
+It defines available registers and data types.
+Addressing modes are also part of the ISA.
+The ISA shapes how software communicates with hardware.
+Programs must follow the ISA to run on a processor.
+Different CPUs may support different ISAs.
+ISA affects performance and system design.
+It is the interface between hardware and software.
+RISC and CISC are two common ISA types.
+
+---
+
+# 37. Describe the different addressing modes (Immediate, Direct, Indirect, Indexed, Register).
+
+Immediate mode uses a constant value inside the instruction.
+Direct mode specifies a memory address directly.
+Indirect mode uses a register that points to a memory address.
+Indexed mode adds an offset to a base address.
+Register mode uses values inside CPU registers.
+Each mode gives different flexibility for programmers.
+Immediate values are fast but limited.
+Direct and indirect modes access memory.
+Indexed mode is useful for arrays.
+Register mode is the fastest for data access.
+
+---
+
+# 38. What is the function of the Control Unit (CU), and how does it interact with other CPU components?
+
+The Control Unit manages and coordinates all CPU operations.
+It fetches instructions from memory using the PC.
+The CU decodes instructions to understand required actions.
+It sends control signals to the ALU, registers, and memory.
+The CU ensures data flows correctly through the system.
+It controls timing and sequencing of operations.
+The CU activates the correct components for each instruction.
+It works closely with the ALU during execution.
+Without the CU, the CPU would not function correctly.
+The CU acts as the brain that directs all processing tasks.
